@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import API from "./components/API";
 import HeaderBar from "./components/HeaderBar";
 import TextField from "@material-ui/core/TextField";
@@ -10,6 +10,23 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Box from "@material-ui/core/Box";
 import "./App.css";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#9a67ea',
+      main: '#673ab7',
+      dark: '#320b86',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#fff7ff',
+      main: '#d1c4e9',
+      dark: '#a094b7',
+      contrastText: '#000',
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   lists: {
@@ -139,9 +156,11 @@ function App() {
               container
               direction="row"
               justify="center"
-              alignItems="flex-end"
+              alignItems="center"
+              spacing={1}
             >
-              <Grid item>
+              <Grid item xs></Grid>
+              <Grid item xs={5}>
                 <Button
                   size="small"
                   variant="contained"
@@ -151,11 +170,11 @@ function App() {
                   Get Related Articles
                 </Button>
               </Grid>
-              <Grid>
+              <Grid item xs={3}>
                 <Button
                   size="small"
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={(event) => {
                     var name = parts.name;
                     // remove the 'p' from pololu part #'s so the links work
@@ -198,6 +217,15 @@ function App() {
         </ListItem>
         {!articles.selected && (
           <ListItem>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={1}
+            >
+              <Grid item xs></Grid>
+              <Grid item xs>
             <Button
               size="small"
               variant="contained"
@@ -206,16 +234,20 @@ function App() {
             >
               Get Related Parts
             </Button>
+            </Grid>
+            <Grid item xs>
             <Button
               size="small"
               variant="contained"
-              color="primary"
+              color="secondary"
               onClick={(event) => {
                 window.open(url + articles.name);
               }}
             >
               View Article
             </Button>
+            </Grid>
+            </Grid>
           </ListItem>
         )}
         <Divider />
@@ -226,6 +258,7 @@ function App() {
 
 
   return (
+    <ThemeProvider theme={theme}>
     <div className="App">
         <HeaderBar />
         { loading ? <img className={classes.loadingIcon} src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"/> : null}
@@ -282,6 +315,7 @@ function App() {
           </Grid>
         </Box>
     </div>
+    </ThemeProvider>
   );
 }
 
